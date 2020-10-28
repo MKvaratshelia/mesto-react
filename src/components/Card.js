@@ -2,10 +2,11 @@ import React from "react";
 
 function Card({ data, onCardClick }) {
   return (
-    <div className="place-card" onClick={onCardClick.bind(null, data)}>
+    <div className="place-card">
       <div
         className="place-card__image"
         style={{ backgroundImage: `url(${data.link})` }}
+        onClick={onCardClick.bind(null, data)}
       >
         <button className="place-card__delete-icon"></button>
       </div>
