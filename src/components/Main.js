@@ -9,7 +9,6 @@ export const Main = (props) => {
   const [cards, setCards] = useState([]);
 
   // Получаем данные пользователя с сервера
-
   useEffect(() => {
     api.getUserInfo().then(({ avatar, about, name }) => {
       setUserName(name);
