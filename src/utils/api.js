@@ -125,7 +125,7 @@ export default class Api {
       .catch((err) => console.log(err));
   }
   deleteCardFromServer(id) {
-    fetch(this.options.baseUrl + `/cards/${id}`, {
+    return fetch(this.options.baseUrl + `/cards/${id}`, {
       method: "DELETE",
       headers: this.options.headers,
       body: JSON.stringify({
