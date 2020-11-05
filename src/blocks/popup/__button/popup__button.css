@@ -4,15 +4,14 @@
 .popup__button {
   width: 100%;
   height: 50px;
-  border: 1px solid rgba(0, 0, 0, .2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   margin-top: 48px;
   color: white;
   background-color: #000;
-  
 }
 
 .popup__button:disabled {
-  color: rgba(0, 0, 0, .2);
+  color: rgba(0, 0, 0, 0.2);
   background-color: white;
+  cursor: no-drop;
 }
-

@@ -7,6 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -16,6 +17,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // данные пользователя с свервера
   useEffect(() => {
@@ -27,7 +29,6 @@ function App() {
   // карточки с сервера
   useEffect(() => {
     api.getInitialCards().then((data) => {
-      // const dataReverse = data.reverse().slice(0, 10);
       const dataReverse = [...data.reverse().slice(0, 10)];
       setCards(dataReverse);
     });
@@ -52,6 +53,26 @@ function App() {
   function handleCardClick(card) {
     setImagePopupOpen(true);
     setSelectedCard(card);
+  }
+
+  function handleUpdateUser(newName, newDescription) {
+    setLoading(true);
+    setTimeout(() => {
+      api.editProfile(newName, newDescription).then((res) => {
+        setCurrentUser(res);
+        setLoading(false);
+      });
+    }, 1000);
+  }
+
+  function handleUpdateAvatar(url) {
+    setLoading(true);
+    setTimeout(() => {
+      api.newAvatar(url).then((res) => {
+        setCurrentUser(res);
+        setLoading(false);
+      });
+    }, 1000);
   }
 
   return (
@@ -90,23 +111,15 @@ function App() {
             <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
               onClose={() => closeAllPopups(setIsEditProfilePopupOpen)}
+              onUpdateUser={handleUpdateUser}
+              loading={loading}
             />
-            <PopupWithForm
-              name={"popup__avatar"}
-              title={"Обновить аватар"}
-              button={"Сохранить"}
+            <EditAvatarPopup
               isOpen={isEditAvatarPopupOpen}
               onClose={() => closeAllPopups(setIsEditAvatarPopupOpen)}
-            >
-              <input
-                type="url"
-                name="userAvatar"
-                className="popup__input popup__input_type_avatar"
-                placeholder="Ссылка на аватар"
-                required
-              />
-              <p className="popup__name-error"></p>
-            </PopupWithForm>
+              onUpdateAvatar={handleUpdateAvatar}
+              loading={loading}
+            />
             <ImagePopup
               card={selectedCard}
               isOpen={isImagePopupOpen}

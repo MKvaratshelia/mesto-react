@@ -147,24 +147,26 @@ export default class Api {
         console.log(err);
       });
   }
-  newAvatar(avatarUrl, userAvatar) {
-    fetch(this.options.baseUrl + "/users/me/avatar", {
-      method: "PATCH",
-      headers: this.options.headers,
-      body: JSON.stringify({
-        avatar: avatarUrl,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+  newAvatar(avatarUrl) {
+    return (
+      fetch(this.options.baseUrl + "/users/me/avatar", {
+        method: "PATCH",
+        headers: this.options.headers,
+        body: JSON.stringify({
+          avatar: avatarUrl,
+        }),
       })
-      .then((res) => {
-        userAvatar.style.backgroundImage = `url(${res.avatar})`;
-      })
-      .catch((err) => console.log(err));
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          return Promise.reject(`Ошибка: ${res.status}`);
+        })
+        // .then((res) => {
+        //   userAvatar.style.backgroundImage = `url(${res.avatar})`;
+        // })
+        .catch((err) => console.log(err))
+    );
     // .finally(() => buttonLoad(false, avatarButton, "Сохранить"));
   }
 }

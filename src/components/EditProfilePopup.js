@@ -5,21 +5,31 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function EditProfilePopup(props) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
 
   const currentUser = useContext(CurrentUserContext);
-
-  function handleChangeName(event) {
-    setName(event.target.value);
-  }
-
-  function handleChangeDescription(event) {
-    setDescription(event.target.value);
-  }
-
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
   }, [currentUser]);
+
+  function handleChangeName(event) {
+    event.target.value.length === 0 ? setNameError(true) : setNameError(false);
+    setName(event.target.value);
+  }
+
+  function handleChangeDescription(event) {
+    event.target.value.length === 0
+      ? setDescriptionError(true)
+      : setDescriptionError(false);
+    setDescription(event.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onUpdateUser(name, description);
+  }
 
   return (
     <PopupWithForm
@@ -28,6 +38,8 @@ function EditProfilePopup(props) {
       button={"Сохранить"}
       isOpen={props.isOpen}
       onClose={props.onClose}
+      onSubmit={handleSubmit}
+      loading={props.loading}
     >
       <input
         value={name}
@@ -38,7 +50,10 @@ function EditProfilePopup(props) {
         required
         onChange={handleChangeName}
       />
-      <p className="popup__name-error"></p>
+      {nameError ? (
+        <p className="popup__name-error">Поле не может быть пустым</p>
+      ) : null}
+
       <input
         value={description}
         type="text"
@@ -48,7 +63,9 @@ function EditProfilePopup(props) {
         required
         onChange={handleChangeDescription}
       />
-      <p className="popup__job-error"></p>
+      {descriptionError ? (
+        <p className="popup__job-error">Поле не может быть пустым</p>
+      ) : null}
     </PopupWithForm>
   );
 }
