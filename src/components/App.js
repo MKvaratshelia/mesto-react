@@ -3,11 +3,10 @@ import { api } from "../utils/api";
 import { Header } from "./Header";
 import { Main } from "./Main";
 import ImagePopup from "./ImagePopup";
-import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CardContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup ";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -29,8 +28,7 @@ function App() {
   // карточки с сервера
   useEffect(() => {
     api.getInitialCards().then((data) => {
-      const dataReverse = [...data.reverse().slice(0, 10)];
-      setCards(dataReverse);
+      setCards(data.reverse());
     });
   }, []);
 
@@ -75,58 +73,76 @@ function App() {
     }, 1000);
   }
 
+  function handleUpdatePlace(place, url) {
+    setLoading(true);
+    setTimeout(() => {
+      api.addNewCard(place, url).then((newCard) => {
+        setCards([newCard, ...cards]);
+        setLoading(false);
+      });
+    }, 1000);
+  }
+
+  // установка и снятие лайка с карточки
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    if (!isLiked) {
+      api.addLike(card._id).then((newCard) => {
+        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
+        // Обновляем стейт
+        setCards(newCards);
+      });
+    } else {
+      api.deleteLike(card._id).then((newCard) => {
+        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
+        // Обновляем стейт
+        setCards(newCards);
+      });
+    }
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCardFromServer(card._id);
+    setCards(cards.filter((el) => el !== card));
+  }
+
   return (
     <>
       <Header />
       <CurrentUserContext.Provider value={currentUser}>
-        <CardContext.Provider value={cards}>
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            card={handleCardClick}
-          >
-            <PopupWithForm
-              name={"popup-place"}
-              title={"Новое место"}
-              button={"+"}
-              isOpen={isAddPlacePopupOpen}
-              onClose={() => closeAllPopups(setIsAddPlacePopupOpen)}
-            >
-              <input
-                type="text"
-                name="name"
-                className="popup__input popup__input_type_name"
-                placeholder="Название"
-                required
-              />
-              <input
-                type="url"
-                name="link"
-                className="popup__input popup__input_type_link-url"
-                placeholder="Ссылка на картинку"
-                required
-              />
-            </PopupWithForm>
-            <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
-              onClose={() => closeAllPopups(setIsEditProfilePopupOpen)}
-              onUpdateUser={handleUpdateUser}
-              loading={loading}
-            />
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={() => closeAllPopups(setIsEditAvatarPopupOpen)}
-              onUpdateAvatar={handleUpdateAvatar}
-              loading={loading}
-            />
-            <ImagePopup
-              card={selectedCard}
-              isOpen={isImagePopupOpen}
-              onClose={() => closeAllPopups(setImagePopupOpen)}
-            />
-          </Main>
-        </CardContext.Provider>
+        <Main
+          cards={cards}
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+          onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+        >
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={() => closeAllPopups(setIsAddPlacePopupOpen)}
+            onUpdatePlace={handleUpdatePlace}
+            loading={loading}
+          />
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={() => closeAllPopups(setIsEditProfilePopupOpen)}
+            onUpdateUser={handleUpdateUser}
+            loading={loading}
+          />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={() => closeAllPopups(setIsEditAvatarPopupOpen)}
+            onUpdateAvatar={handleUpdateAvatar}
+            loading={loading}
+          />
+          <ImagePopup
+            card={selectedCard}
+            isOpen={isImagePopupOpen}
+            onClose={() => closeAllPopups(setImagePopupOpen)}
+          />
+        </Main>
       </CurrentUserContext.Provider>
     </>
   );
