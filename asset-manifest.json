@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/MKvaratshelia/mesto-react/static/css/main.d2462a2c.chunk.css",
+    "main.js": "/MKvaratshelia/mesto-react/static/js/main.04204497.chunk.js",
+    "main.js.map": "/MKvaratshelia/mesto-react/static/js/main.04204497.chunk.js.map",
+    "runtime-main.js": "/MKvaratshelia/mesto-react/static/js/runtime-main.51105a2e.js",
+    "runtime-main.js.map": "/MKvaratshelia/mesto-react/static/js/runtime-main.51105a2e.js.map",
+    "static/js/2.65353f0d.chunk.js": "/MKvaratshelia/mesto-react/static/js/2.65353f0d.chunk.js",
+    "static/js/2.65353f0d.chunk.js.map": "/MKvaratshelia/mesto-react/static/js/2.65353f0d.chunk.js.map",
+    "index.html": "/MKvaratshelia/mesto-react/index.html",
+    "precache-manifest.f7dab14abf4f80f54188b20322072d29.js": "/MKvaratshelia/mesto-react/precache-manifest.f7dab14abf4f80f54188b20322072d29.js",
+    "service-worker.js": "/MKvaratshelia/mesto-react/service-worker.js",
+    "static/css/main.d2462a2c.chunk.css.map": "/MKvaratshelia/mesto-react/static/css/main.d2462a2c.chunk.css.map",
+    "static/js/2.65353f0d.chunk.js.LICENSE.txt": "/MKvaratshelia/mesto-react/static/js/2.65353f0d.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/MKvaratshelia/mesto-react/static/media/trash-icon.18e456c4.svg",
+    "static/media/close.svg": "/MKvaratshelia/mesto-react/static/media/close.a3e3d9bd.svg",
+    "static/media/logo.svg": "/MKvaratshelia/mesto-react/static/media/logo.9d0e3a93.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.51105a2e.js",
+    "static/js/2.65353f0d.chunk.js",
+    "static/css/main.d2462a2c.chunk.css",
+    "static/js/main.04204497.chunk.js"
+  ]
+}
