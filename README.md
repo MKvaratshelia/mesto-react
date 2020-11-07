@@ -2,7 +2,7 @@
 
 [Проект место на GitHub Pages](https://mkvaratshelia.github.io/mesto-react/)
 
-![Изображение страницы](https://yadi.sk/i/_lk4oCe0V0P9Xw)
+![Изображение страницы](https://github.com/MKvaratshelia/mesto-react/blob/master/src/images/screencapture-mkvaratshelia-github-io-mesto-react-2020-11-07-14_39_42.png)
 
 #### Сервис 'Mesto' одностраничное приложение, имитирующее страницу пользователя с галереей, собирающее данные с серверного API.
 
